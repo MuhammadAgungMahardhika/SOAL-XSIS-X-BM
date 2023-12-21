@@ -1,0 +1,72 @@
+----------------------------------------------Soal 2 Query Data---------------------------------------------
+------------------------------------------------------------------------------------------------------------
+-- Masukkan data berikut ke tabel Karyawan
+CREATE TABLE Karyawan (
+    NIP INT PRIMARY KEY,
+    Nama VARCHAR(50),
+    Umur INT,
+    Gaji INT,
+    Valuta VARCHAR(3)
+);
+-- Menambahkan Data Karyawan
+INSERT INTO Karyawan (NIP, Nama, Umur, Gaji, Valuta) VALUES
+(001, 'Anton', 25, 650, 'USD'),
+(002, 'Budi', 35, 545, 'EUR'),
+(003, 'Charles', 30, 7000000, 'IDR'),
+(004, 'Dodi', 27, 900, 'USD'),
+(005, 'Edwin', 41, 10000000, 'IDR'),
+(006, 'Fajar', 20, 750, 'EUR');
+------------------------------------------------------------------------------------------------------------
+
+
+------------------------------------------------------------------------------------------------------------
+-- Masukkan data ke tabel kurs berikut
+CREATE TABLE Kurs (
+    Valuta VARCHAR(3) PRIMARY KEY,
+    Kurs INT
+);
+
+-- Menambahkan Data Kurs
+INSERT INTO Kurs (Valuta, Kurs) VALUES
+('IDR', 1),
+('USD', 10000),
+('EUR', 9000),
+('CNY', 150),
+('JPY', 200);
+------------------------------------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------------------------------------
+-- Masukkan report di bawah ke dalam tabel dan ditampilkan (menggunakan sintaks SQL)
+SELECT
+    CASE
+        WHEN Umur BETWEEN 21 AND 30 THEN '21-30 tahun'
+        WHEN Umur BETWEEN 31 AND 40 THEN '31-40 tahun'
+        ELSE 'Lain-Lain'
+    END AS range_umur,
+    COUNT(*) AS total_karyawan,
+    SUM(Gaji * Kurs) AS total_gaji_rupiah
+FROM
+    Karyawan
+JOIN
+    Kurs ON Karyawan.Valuta = Kurs.Valuta
+GROUP BY
+    range_umur;
+-------------------------------------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------------------------------------
+--2. Report Karyawan Per Mata Uang, tetapi yang tampil adalah yang total per valutanya di atas Rp. 15.000.000
+SELECT
+    Karyawan.Valuta,
+    COUNT(*) AS total_karyawan,
+    SUM(Gaji * Kurs) AS total_gaji_rupiah
+FROM
+    Karyawan
+JOIN
+    Kurs ON Karyawan.Valuta = Kurs.Valuta
+GROUP BY
+    Karyawan.Valuta
+HAVING
+    total_gaji_rupiah > 15000000;
+--------------------------------------------------------------------------------------------------------------
