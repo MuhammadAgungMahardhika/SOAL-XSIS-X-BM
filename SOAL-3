@@ -1,0 +1,66 @@
+--------------------------------------------SOAL-3---------------------------------------------------------------
+--Buatlah script CRUD (Create, Read, Update, Delete) menggunakan metode ajax/jquery dan PHP ---
+
+
+  function showData() {
+        $.ajax({
+            type: 'GET',
+            url: 'https://agung.com/get',
+            success: function (response) {
+                var data = JSON.parse(response);
+                console.log(data);
+            }
+        });
+    }
+
+    //menampilkan data
+    showData();
+
+    function addData(nip, nama, divisi) {
+        $.ajax({
+            type: 'POST',
+            url: 'https://agung.com/create',
+            data: {
+                 nip: nip, // option nip bisa digenerate di kontroller
+                nama: nama,
+                divisi: divisi
+            },
+            success: function (response) {
+                console.log(response);
+                showData();
+            }
+        });
+    }
+
+    // Menambahkan data 
+    addData('001', 'Agung', 'IT');
+
+    function updateData(nip, nama, divisi) {
+        $.ajax({
+            type: 'PUT',
+            url: `https://agung.com/edit/${nip}`,
+            data: {
+                nama: nama,
+                divisi: divisi
+            },
+            success: function (response) {
+                console.log(response);
+                showData();
+            }
+        });
+    }
+
+    // Mengubah data 
+    updateData('001', 'Agung Gaul', 'IT');
+
+    function deleteData(nip) {
+        $.ajax({
+            type: 'DELETE',
+            url: `https://agung.com/delete/${nip}`,
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    }
+  //menghapus data berdasarkan nip
+  deleteData('001')
