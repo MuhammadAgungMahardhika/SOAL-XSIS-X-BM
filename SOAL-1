@@ -1,0 +1,76 @@
+/*-------------------------------SOAL------------------------------------------------------------*/
+Masukkan isi data berikut ke array dan object
+
+Array1 berisi ‘Satu’, ‘Dua’, ‘Tiga’,’Lima’
+Array2 berisi ‘Tiga’,‘Empat’,’Lima’,’Enam’
+Object1 berisi ‘Satu’, ‘Dua’, ‘Tiga’,’Lima’
+Object2 berisi ‘Tiga’,‘Empat’,’Lima’,’Enam’
+
+A. Dari kedua array tersebut lalu dibuat irisannya dan dimasukkan ke Array baru sehingga Array baru hanya berisi data irisannya.
+Setelah itu tampilkan isi array baru itu sesuai urutan abjad.
+
+B. Dari kedua object tersebut lalu dibuat irisannya dan dimasukkan ke Object baru sehingga Object baru hanya berisi data irisannya.
+Setelah itu tampilkan isi object baru itu sesuai urutan abjad.*/
+
+/*----------------------------------JAWABAN SOAL PERTAMA MENGGGUNAKAN PHP-------------------------*/
+<?php
+// Array
+$array1 = ['Satu', 'Dua', 'Tiga', 'Lima'];
+$array2 = ['Tiga', 'Empat', 'Lima', 'Enam'];
+
+// Object
+$object1 = ['Satu' => 1, 'Dua' => 2, 'Tiga' => 3, 'Lima' => 5];
+$object2 = ['Tiga' => 3, 'Empat' => 4, 'Lima' => 5, 'Enam' => 6];
+
+// A. Irisan array
+$intersectArray = [];
+
+// Mencari irisan arrayy
+foreach ($array1 as $value1) {
+    foreach ($array2 as $value2) {
+        if ($value1 === $value2) {
+            $intersectArray[] = $value1;
+            break;
+        }
+    }
+}
+
+// Mengurutkan irisan array sesuai abjad
+for ($i = 0; $i < count($intersectArray) - 1; $i++) {
+    for ($j = $i + 1; $j < count($intersectArray); $j++) {
+       // strtolower agar tidak casesensitif
+       if (strtolower($intersectArray[$i]) > strtolower($intersectArray[$j])) {
+            // tukar posisi jika elemen pada indeks $i > $j 
+            $temp = $intersectArray[$i];
+            $intersectArray[$i] = $intersectArray[$j];
+            $intersectArray[$j] = $temp;
+        }
+    }
+}
+
+// Menampilkan irisan array yang sudah diurutkan
+var_dump($intersectArray);
+
+// B. Irisan object
+$intersectObject = [];
+
+// Loop dan cari irisan object
+foreach ($object1 as $key1 => $value1) {
+    foreach ($object2 as $key2 => $value2) {
+        if ($key1 === $key2) {
+            $intersectObject[$key1] = $value1;
+            break;
+        }
+    }
+}
+// mengurutkan irisan object 
+$sortedIntersectObject = [];
+$keys = array_keys($intersectObject);
+sort($keys);
+foreach ($keys as $key) {
+    $sortedIntersectObject[$key] = $intersectObject[$key];
+}
+
+// Tampilkan irisan object yang sudah diurutkan
+var_dump($sortedIntersectObject);
+?>
